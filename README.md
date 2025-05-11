@@ -1,24 +1,18 @@
-# README
+# Hotwire To-Do App - Stacks
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A simple to-do list built with Ruby on Rails, Hotwire (Turbo + Stimulus), and Tailwind CSS.
 
-Things you may want to cover:
+## Features
 
-* Ruby version
+- Add, edit, toggle, and delete tasks
+- Real-time updates with Turbo Streams
+- Flash messages that auto-dismiss
+- Clean UI with Tailwind CSS
 
-* System dependencies
+## Setup
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```bash
+bundle install
+rails db:create db:migrate
+rails tailwindcss:build
+bin/dev
