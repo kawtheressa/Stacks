@@ -1,0 +1,52 @@
+<%# app/views/tasks/_form.html.erb %>
+<%= turbo_frame_tag "task_form" do %>
+  <%= form_with(model: task, class: "task-form p-4 bg-white rounded-md shadow", data: { controller: "validation" }) do |form| %>
+    <div class="mb-4">
+      <h2 class="text-xl font-bold text-indigo-700 mb-4">
+        <%= task.persisted? ? "Edit Task" : "Add New Task" %>
+      </h2>
+
+      <%= form.label :title, class: "block text-gray-700 text-sm font-medium mb-2" %>
+      <%= form.text_field :title,
+                          class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500",
+                          required: true,
+                          autofocus: true,
+                          minlength: 3,
+                          maxlength: 100,
+                          data: {
+                            validation_target: "input",
+                            action: "input->validation#validateField blur->validation#validateField"
+                          } %>
+      <p class="text-red-500 text-xs italic mt-1 hidden" data-validation-target="error"></p>
+    </div>
+
+    <div class="mb-4">
+      <label class="flex items-center">
+        <%= form.check_box :completed, class: "h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" %>
+        <span class="ml-2 text-gray-700 text-sm">Completed</span>
+      </label>
+    </div>
+
+    <div class="flex justify-between">
+      <% if task.persisted? %>
+        <%= link_to "Cancel", tasks_path, class: "px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors", data: { turbo_frame: "task_form" } %>
+      <% end %>
+
+      <div>
+        <%= form.submit class: "px-4 py-2 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors" %>
+      </div>
+    </div>
+  <% end %>
+
+  <%# Display model validation errors if present %>
+  <% if task.errors.any? %>
+    <div class="mt-4 p-4 bg-red-50 rounded-md border border-red-200">
+      <div class="text-sm font-medium text-red-800 mb-1">Please correct the following errors:</div>
+      <ul class="list-disc list-inside text-xs text-red-700">
+        <% task.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+<% end %>

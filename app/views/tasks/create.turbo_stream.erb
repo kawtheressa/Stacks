@@ -1,0 +1,37 @@
+<%# app/views/tasks/create.turbo_stream.erb %>
+<%= turbo_stream.prepend "tasks" do %>
+  <%= render "task", task: @task %>
+<% end %>
+
+<%= turbo_stream.replace "task_form" do %>
+  <%= render "form", task: Task.new %>
+<% end %>
+
+<%# Update stats %>
+<%= turbo_stream.replace "task_stats" do %>
+  <div id="task_stats" class="p-4 border-t border-gray-200 flex justify-between items-center">
+    <div class="text-sm text-gray-700">
+      Total: <span class="font-medium text-indigo-700"><%= Task.count %></span> tasks
+    </div>
+    <div class="text-sm text-gray-700">
+      Completed: <span class="font-medium text-green-600"><%= Task.where(completed: true).count %></span>
+      Pending: <span class="font-medium text-yellow-600"><%= Task.where(completed: false).count %></span>
+    </div>
+  </div>
+<% end %>
+
+<%# Add flash message %>
+<% if flash[:notice].present? %>
+  <%= turbo_stream.append "flash_messages" do %>
+    <div class="fixed top-4 right-4 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-md" role="alert" data-controller="flash">
+      <div class="flex">
+        <div class="py-1"><svg class="h-6 w-6 text-green-500 mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
+        <div>
+          <p class="font-bold">Success</p>
+          <p class="text-sm"><%= flash[:notice] %></p>
+        </div>
+        <button data-action="click->flash#close" class="ml-4 text-green-500 hover:text-green-700">×</button>
+      </div>
+    </div>
+  <% end %>
+<% end %>

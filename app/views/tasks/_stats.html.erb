@@ -1,0 +1,10 @@
+<%# app/views/tasks/_stats.html.erb %>
+<div id="task_stats" class="p-4 border-t border-gray-200 flex justify-between items-center">
+  <div class="text-sm text-gray-700">
+    Total: <span class="font-medium text-indigo-700"><%= tasks.count %></span> tasks
+  </div>
+  <div class="text-sm text-gray-700">
+    Completed: <span class="font-medium text-green-600"><%= tasks.where(completed: true).count %></span>
+    Pending: <span class="font-medium text-yellow-600"><%= tasks.where(completed: false).count %></span>
+  </div>
+</div>
